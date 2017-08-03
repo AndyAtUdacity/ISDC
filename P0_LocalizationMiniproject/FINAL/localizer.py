@@ -14,15 +14,8 @@ def initialize_beliefs(grid):
     return beliefs
 
 def sense(color, grid, beliefs, p_hit, p_miss):
-    
-    for i in range(len(grid)):
-        for j in range(len(grid[0])):
-            cell = grid[i][j]
-            if cell == color:
-                beliefs[i][j] = p_hit
-            else:
-                beliefs[i][j] = p_miss
-    return normalize(beliefs)
+    # TODO - implement this eventually...
+    return beliefs
 
 def move(dy, dx, beliefs, blurring):
     height = len(beliefs)
@@ -30,9 +23,7 @@ def move(dy, dx, beliefs, blurring):
     new_G = [[0.0 for i in range(width)] for j in range(height)]
     for i, row in enumerate(beliefs):
         for j, cell in enumerate(row):
-            # now we want to spread this probability to other cells
-            new_i = (i + dy) % height
-            new_j = (j + dx) % width
+            new_i = i + dy 
+            new_j = j + dx
             new_G[int(new_i)][int(new_j)] = cell
-    # return blur(new_G)
     return blur(new_G, blurring)
