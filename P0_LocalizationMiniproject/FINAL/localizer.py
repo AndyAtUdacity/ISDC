@@ -19,9 +19,9 @@ def sense(color, grid, beliefs, p_hit, p_miss):
         for j in range(len(grid[0])):
             cell = grid[i][j]
             if cell == color:
-                beliefs[i][j] *= p_hit
+                beliefs[i][j] = p_hit
             else:
-                beliefs[i][j] *= p_miss
+                beliefs[i][j] = p_miss
     return normalize(beliefs)
 
 def move(dy, dx, beliefs, blurring):
