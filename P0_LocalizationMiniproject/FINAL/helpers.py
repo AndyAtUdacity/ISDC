@@ -1,4 +1,8 @@
 def normalize(grid):
+    """
+    Given a grid of unnormalized probabilities, computes the
+    correspond normalized version of that grid. 
+    """
     total = 0.0
     for row in grid:
         for cell in row:
@@ -10,6 +14,12 @@ def normalize(grid):
 
 
 def blur(grid, blurring):
+    """
+    Spreads probability out on a grid using a 3x3 blurring window.
+    The blurring parameter controls how much of a belief spills out
+    into adjacent cells. If blurring is 0 this function will have 
+    no effect. 
+    """
     height = len(grid)
     width  = len(grid[0])
 
@@ -35,7 +45,15 @@ def blur(grid, blurring):
     return normalize(new)
 
 def is_robot_localized(beliefs, true_pos):
+    """
+    Returns None if the robot has no "strong opininon" about
+    its belief. The robot has a strong opinion when the 
+    size of it's best belief is greater than twice the size of 
+    its second best belief.
 
+    If it DOES have a strong opinion then this function returns 
+    True if that opinion is correct and False if it is not.
+    """
     best_belief = 0.0
     best_pos = None
     second_best = 0.0
@@ -47,9 +65,17 @@ def is_robot_localized(beliefs, true_pos):
                 best_pos = (y,x)
             elif belief > second_best:
                 second_best = belief
-    if best_belief / second_best > 2.0:
+    if second_best <= 0.00001 or best_belief / second_best > 2.0:
         # robot thinks it knows where it is
-        return best_pos == true_pos
+        localized =  best_pos == true_pos
+        return localized, best_pos
     else:
         # No strong single best belief
-        return None
+        return None, best_pos
+
+def close_enough(g1, g2):
+    for r1, r2 in zip(g1,g2):
+        for v1, v2 in zip(r1, r2):
+            if abs(v1 - v2) > 0.001:
+                return False
+    return True

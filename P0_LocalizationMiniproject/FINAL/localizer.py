@@ -25,11 +25,8 @@ def sense(color, grid, beliefs, p_hit, p_miss):
     return normalize(beliefs)
 
 def move(dy, dx, beliefs, blurring):
-
     height = len(beliefs)
     width = len(beliefs[0])
-
-
     new_G = [[0.0 for i in range(width)] for j in range(height)]
     for i, row in enumerate(beliefs):
         for j, cell in enumerate(row):
